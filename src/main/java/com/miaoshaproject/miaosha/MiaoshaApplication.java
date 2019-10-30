@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @MapperScan("com.miaoshaproject.miaosha.dao")
 @RestController
 public class MiaoshaApplication {
-
     @Autowired
     private UserDOMapper userDOMapper;
 
