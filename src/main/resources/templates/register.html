@@ -92,7 +92,7 @@
             $.ajax({
                 type:"POST",
                 contentType:"application/x-www-form-urlencoded",
-                url:"http://localhost:8080/user/register",
+                url:"http://localhost:8090/user/register",
                 data:{
                     "telephone":telephone,
                     "otpCode":otpCode,
@@ -101,11 +101,12 @@
                     "age":age,
                     "password":password
                 },
+                xhrFields:{withCredentials:true},
                 success:function(data){
                     if(data.status=="success"){
                         alert("注册成功");
                     }else{
-                        alert("注册失败,原因为"+data.errMsg);
+                        alert("注册失败,原因为"+data.data.errMsg);
                     }
                 },
                 error:function(data){

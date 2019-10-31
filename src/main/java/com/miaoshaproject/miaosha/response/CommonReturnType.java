@@ -30,7 +30,7 @@ public class CommonReturnType {
     public static CommonReturnType create(Object result,String status){
         CommonReturnType type = new CommonReturnType();
         type.setData(result);
-        type.setStatus("success");
+        type.setStatus(status);
         return type;
     }
 }

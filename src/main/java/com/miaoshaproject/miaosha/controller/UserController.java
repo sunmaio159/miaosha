@@ -14,8 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -23,7 +27,7 @@ import java.util.Random;
 @Controller("user")
 @RequestMapping("/user")
 //解决跨域请求问题
-@CrossOrigin
+@CrossOrigin(allowCredentials = "true",allowedHeaders = "*")
 public class UserController extends BaseController {
     @Autowired
     private UserService userService;
@@ -68,7 +72,7 @@ public class UserController extends BaseController {
                                      @RequestParam(name="name") String name,
                                      @RequestParam(name="gender") Integer gender,
                                      @RequestParam(name="age")Integer age,
-                                     @RequestParam(name="password")String password) throws BusinessException{
+                                     @RequestParam(name="password")String password) throws BusinessException, NoSuchAlgorithmException, UnsupportedEncodingException {
         //验证手机号与对应的otpCode相符合
         String inSessionOptCode = (String) this.httpServletRequest.getSession().getAttribute(telephone);
         if(!StringUtils.equals(otpCode,inSessionOptCode)){
@@ -82,7 +86,7 @@ public class UserController extends BaseController {
         userModel.setGender(new Byte(String.valueOf(gender.intValue())));
         userModel.setRegisterMode("byphone");
         userModel.setTelphone(telephone);
-        userModel.setEncrptPassword(MD5Encoder.encode(password.getBytes()));
+        userModel.setEncrptPassword(EncodeByMD5(password));
         userService.register(userModel);
 
         return CommonReturnType.create(null);
@@ -95,5 +99,12 @@ public class UserController extends BaseController {
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(userModel,userVO);
         return userVO;
+    }
+    public String EncodeByMD5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        //确定计算方法
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        BASE64Encoder base64Encoder = new BASE64Encoder();
+        String newStr = base64Encoder.encode(md5.digest(str.getBytes("utf-8")));
+        return newStr;
     }
 }
