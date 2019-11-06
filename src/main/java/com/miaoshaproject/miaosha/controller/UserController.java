@@ -8,6 +8,8 @@ import com.miaoshaproject.miaosha.error.EmBusinessError;
 import com.miaoshaproject.miaosha.response.CommonReturnType;
 import com.miaoshaproject.miaosha.service.UserService;
 import com.miaoshaproject.miaosha.service.model.UserModel;
+import com.miaoshaproject.miaosha.validator.ValidationResult;
+import com.miaoshaproject.miaosha.validator.ValidatorImpl;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,7 @@ public class UserController extends BaseController {
     @Autowired
     private HttpServletRequest httpServletRequest;
 
+    //用户注册
     @RequestMapping(value="/getotp",method ={RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
     @ResponseBody
     public CommonReturnType getOtp(@RequestParam(name="telephone") String telephone){
@@ -51,6 +54,25 @@ public class UserController extends BaseController {
 
         return CommonReturnType.create(null);
     }
+
+    //用户登录
+    @RequestMapping(value="/login",method ={RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
+    @ResponseBody
+    public CommonReturnType login(@RequestParam(name="telephone") String telephone,
+                                  @RequestParam(name="password") String password) throws BusinessException, UnsupportedEncodingException, NoSuchAlgorithmException {
+        //入参校验
+        if(org.apache.commons.lang3.StringUtils.isEmpty(telephone)||
+                org.apache.commons.lang3.StringUtils.isEmpty(password)){
+            throw  new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+        }
+        //用户服务,来校验数据
+        UserModel userModel = userService.validateLogin(telephone,this.EncodeByMD5(password));
+        //将登录凭证计入到用户登录成功的session
+        this.httpServletRequest.getSession().setAttribute("IS_LOGIN",true);
+        this.httpServletRequest.getSession().setAttribute("LOGIN_USER",userModel);
+        return CommonReturnType.create(null);
+    }
+
     @RequestMapping("/get")
     @ResponseBody
     public CommonReturnType getUser(@RequestParam(name="id") Integer id) throws BusinessException{

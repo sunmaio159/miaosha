@@ -72,6 +72,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.2.4.Final</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -109,7 +114,7 @@
                     <!-- 允许移动生成的文件 -->
                     <verbose>true</verbose>
                     <!-- 允许自动覆盖文件 -->
-                    <overwrite>true</overwrite>
+                    <overwrite>false</overwrite>
 
                     <configurationFile>
                         src/main/resources/mybatis-generator.xml

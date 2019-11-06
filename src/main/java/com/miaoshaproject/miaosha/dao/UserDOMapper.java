@@ -52,4 +52,11 @@ public interface UserDOMapper {
      * @mbg.generated Tue Oct 29 16:05:24 CST 2019
      */
     int updateByPrimaryKey(UserDO record);
+
+    /**
+     * 通过手机号获取用户信息
+     * @param telephone
+     * @return
+     */
+    UserDO selectByTelephone(String telephone);
 }

@@ -18,99 +18,59 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label">验证码</label>
-            <div>
-                <input type="text" class="form-control" placeholder="验证码" id="otpCode" name="otpCode"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label">用户昵称</label>
-            <div>
-                <input type="text" class="form-control" placeholder="用户昵称" id="name" name="name"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label">性别</label>
-            <div>
-                <input type="text" class="form-control" placeholder="性别" id="gender" name="gender"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label">年龄</label>
-            <div>
-                <input type="text" class="form-control" placeholder="年龄" id="age" name="age"/>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="control-label">密码</label>
             <div>
                 <input type="password" class="form-control" placeholder="密码" id="password" name="password"/>
             </div>
         </div>
         <div class="form-actions">
-            <button class="btn blue" id="register" type="submit">
-                提交注册
+            <button class="btn blue" id="login" type="submit">
+                登录
+            </button>
+            <button class="btn green" id="register" type="submit">
+                注册
             </button>
         </div>
     </div>
 </body>
 <script>
     jQuery(document).ready(function () {
-        //绑定otp的click时间用于向后端发送获取手机验证码的请求
         $("#register").on("click",function(){
+            window.location.href="register.html";
+        });
+
+        //登录
+        $("#login").on("click",function(){
             var telephone = $("#telephone").val();
-            var otpCode = $("#otpCode").val();
-            var name = $("#name").val();
-            var gender = $("#gender").val();
-            var age = $("#age").val();
             var password = $("#password").val();
 
             if(telephone==null||telephone==""){
                 alert("手机号不能为空");
                 return false;
             }
-            if(otpCode==null||otpCode==""){
-                alert("验证码不能为空");
-                return false;
-            }
-            if(name==null||name==""){
-                alert("昵称不能为空");
-                return false;
-            }
-            if(gender==null||gender==""){
-                alert("性别不能为空");
-                return false;
-            }
-            if(age==null||age==""){
-                alert("年龄不能为空");
-                return false;
-            }
             if(password==null||password==""){
                 alert("密码不能为空");
                 return false;
             }
+
             $.ajax({
                 type:"POST",
                 contentType:"application/x-www-form-urlencoded",
-                url:"http://localhost:8090/user/register",
+                url:"http://localhost:8090/user/login",
                 data:{
                     "telephone":telephone,
-                    "otpCode":otpCode,
-                    "name":name,
-                    "gender":gender,
-                    "age":age,
                     "password":password
                 },
                 xhrFields:{withCredentials:true},
                 success:function(data){
                     if(data.status=="success"){
-                        alert("注册成功");
+                        alert("登录成功");
                     }else{
-                        alert("注册失败,原因为"+data.data.errMsg);
+                        alert("登录失败,原因为"+data.data.errMsg);
                     }
                 },
                 error:function(data){
-                    alert("注册失败,原因为"+data.responseText);
+                    alert("登录失败,原因为"+data.responseText);
                 }
             });
             return false;
