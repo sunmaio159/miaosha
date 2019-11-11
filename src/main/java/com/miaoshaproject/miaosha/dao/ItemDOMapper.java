@@ -3,6 +3,8 @@ package com.miaoshaproject.miaosha.dao;
 import com.miaoshaproject.miaosha.dataobject.ItemDO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("itemDOMapper")
 public interface ItemDOMapper {
     /**
@@ -52,4 +54,6 @@ public interface ItemDOMapper {
      * @mbg.generated Wed Nov 06 17:41:03 CST 2019
      */
     int updateByPrimaryKey(ItemDO record);
+
+    List<ItemDO> listitem();
 }

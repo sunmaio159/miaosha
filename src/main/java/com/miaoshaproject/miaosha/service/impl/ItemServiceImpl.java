@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -32,7 +33,13 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemModel> listItem() {
-        return null;
+        List<ItemDO> itemDOList = itemDOMapper.listitem();
+        List<ItemModel> itemModelList = itemDOList.stream().map(itemDO -> {
+            ItemStockDO itemStockDO = itemStockDOMapper.selectByItemId(itemDO.getId());
+            ItemModel itemModel = this.converModelFromDateObject(itemDO,itemStockDO);
+            return itemModel;
+        }).collect(Collectors.toList());
+        return itemModelList;
     }
 
     @Override
@@ -47,7 +54,7 @@ public class ItemServiceImpl implements ItemService {
         //将dateobject->model
         ItemModel itemModel = converModelFromDateObject(itemDO,itemStockDO);
 
-        return null;
+        return itemModel;
     }
 
     private ItemDO converItemDOFromItemModel(ItemModel itemModel){
@@ -98,5 +105,13 @@ public class ItemServiceImpl implements ItemService {
 
         //返回创建完成的对象
         return this.getItemById(itemModel.getId());
+    }
+
+    public ValidatorImpl getValidator() {
+        return validator;
+    }
+
+    public void setValidator(ValidatorImpl validator) {
+        this.validator = validator;
     }
 }
