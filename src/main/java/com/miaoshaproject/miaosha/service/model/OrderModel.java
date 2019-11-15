@@ -20,7 +20,7 @@ public class OrderModel {
     private Integer amount;
 
     //购买金额
-    private BigDecimal orderAmount;
+    private BigDecimal orderPrice;
 
     public String getId() {
         return id;
@@ -54,12 +54,12 @@ public class OrderModel {
         this.amount = amount;
     }
 
-    public BigDecimal getOrderAmount() {
-        return orderAmount;
+    public BigDecimal getOrderPrice() {
+        return orderPrice;
     }
 
-    public void setOrderAmount(BigDecimal orderAmount) {
-        this.orderAmount = orderAmount;
+    public void setOrderPrice(BigDecimal orderPrice) {
+        this.orderPrice = orderPrice;
     }
 
     public BigDecimal getItemPrice() {

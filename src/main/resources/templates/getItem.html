@@ -45,7 +45,11 @@
                 <label class="control-label"  id="sales" name="sales"/>
             </div>
         </div>
-
+        <div class="form-actions">
+            <button class="btn blue" id="createorder" type="submit">
+                下单
+            </button>
+        </div>
     </div>
 </body>
 <script>
@@ -83,6 +87,30 @@
                 alert("获取信息失败,原因为"+data.responseText);
             }
         });
+
+        $("#createorder").on("click",function(){
+            $.ajax({
+                type:"POST",
+                contentType:"application/x-www-form-urlencoded",
+                url:"http://localhost:8090/order/createorder",
+                data:{
+                    "itemId":g_itemVO.id,
+                    "amount":1
+                },
+                xhrFields:{withCredentials:true},
+                success:function(data){
+                    if(data.status=="success"){
+
+                    }else{
+                        alert("下单失败,原因为"+data.data.errMsg);
+                    }
+                },
+                error:function(data){
+                    alert("下单失败,原因为"+data.responseText);
+                }
+            });
+            return false;
+        })
     })
     function reloadDom(){
         $("#title").text(g_itemVO.title);
