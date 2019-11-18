@@ -2,7 +2,6 @@ package com.miaoshaproject.miaosha.dao;
 
 import com.miaoshaproject.miaosha.dataobject.ItemDO;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -57,4 +56,6 @@ public interface ItemDOMapper {
     int updateByPrimaryKey(ItemDO record);
 
     List<ItemDO> listitem();
+
+    int increaseSales(Integer amount, Integer itemId);
 }

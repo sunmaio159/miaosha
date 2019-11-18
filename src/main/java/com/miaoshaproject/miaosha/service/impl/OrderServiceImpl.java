@@ -50,6 +50,7 @@ public class OrderServiceImpl implements OrderService {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"数量信息不正确");
         }
         //落单减库存
+        itemService.increaseSales(amount,itemId);
         boolean result = itemService.decreaseStock(itemId,amount);
         if(!result){
             throw new BusinessException(EmBusinessError.STOCK_NOT_ENOUGH);
@@ -99,7 +100,13 @@ public class OrderServiceImpl implements OrderService {
             return null;
         }
         OrderDO orderDO = new OrderDO();
-        BeanUtils.copyProperties(orderModel,orderDO);
+//        BeanUtils.copyProperties(orderModel,orderDO);
+        orderDO.setUserId(orderModel.getUserId());
+        orderDO.setId(orderModel.getId());
+        orderDO.setAmount(orderModel.getAmount());
+        orderDO.setItemId(orderModel.getItemId());
+        orderDO.setItemPrice(orderModel.getItemPrice().doubleValue());
+        orderDO.setOrderPrice(orderModel.getOrderPrice().doubleValue());
         return  orderDO;
     }
 }
