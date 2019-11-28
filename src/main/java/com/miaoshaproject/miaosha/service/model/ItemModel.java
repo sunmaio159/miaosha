@@ -51,6 +51,16 @@ public class ItemModel {
     @NotBlank(message = "图片不能为空")
     private String imgUrl;
 
+    private PromoModel promoModel;
+
+    public PromoModel getPromoModel() {
+        return promoModel;
+    }
+
+    public void setPromoModel(PromoModel promoModel) {
+        this.promoModel = promoModel;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 80015
+Source Server Version : 80017
 Source Host           : localhost:3306
 Source Database       : miaosha
 
 Target Server Type    : MYSQL
-Target Server Version : 80015
+Target Server Version : 80017
 File Encoding         : 65001
 
-Date: 2019-11-15 18:01:10
+Date: 2019-11-28 22:12:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,8 +32,8 @@ CREATE TABLE `item` (
 -- ----------------------------
 -- Records of item
 -- ----------------------------
-INSERT INTO `item` VALUES ('10', 'iphone X', '8888.00', '苹果手机', '0', 'https://image.suning.cn/uimg/b2c/newcatentries/0070830053-000000011072676580_1.jpg_800w_800h_4e');
-INSERT INTO `item` VALUES ('11', 'mate30 pro', '6888.00', '华为手机', '0', 'https://res.vmallres.com/pimages//product/6901443353279/800_800_F23055642D59B61C0038B9B6015570AC05A35A7E3838809Emp.png');
+INSERT INTO `item` VALUES ('10', 'iphone X', '8888.00', '苹果手机', '3', 'https://image.suning.cn/uimg/b2c/newcatentries/0070830053-000000011072676580_1.jpg_800w_800h_4e');
+INSERT INTO `item` VALUES ('11', 'mate30 pro', '6888.00', '华为手机', '3', 'https://res.vmallres.com/pimages//product/6901443353279/800_800_F23055642D59B61C0038B9B6015570AC05A35A7E3838809Emp.png');
 
 -- ----------------------------
 -- Table structure for item_stock
@@ -49,15 +49,15 @@ CREATE TABLE `item_stock` (
 -- ----------------------------
 -- Records of item_stock
 -- ----------------------------
-INSERT INTO `item_stock` VALUES ('5', '100', '10');
-INSERT INTO `item_stock` VALUES ('6', '100', '11');
+INSERT INTO `item_stock` VALUES ('5', '97', '10');
+INSERT INTO `item_stock` VALUES ('6', '97', '11');
 
 -- ----------------------------
 -- Table structure for order_info
 -- ----------------------------
 DROP TABLE IF EXISTS `order_info`;
 CREATE TABLE `order_info` (
-  `id` varchar(11) NOT NULL,
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `item_id` int(11) NOT NULL DEFAULT '0',
   `item_price` double NOT NULL DEFAULT '0',
@@ -69,6 +69,31 @@ CREATE TABLE `order_info` (
 -- ----------------------------
 -- Records of order_info
 -- ----------------------------
+INSERT INTO `order_info` VALUES ('2019111800000000', '10', '11', '6888', '1', '6888');
+INSERT INTO `order_info` VALUES ('2019111800000100', '10', '11', '6888', '1', '6888');
+INSERT INTO `order_info` VALUES ('2019111800000200', '10', '11', '6888', '1', '6888');
+INSERT INTO `order_info` VALUES ('2019111800000300', '10', '10', '8888', '1', '8888');
+INSERT INTO `order_info` VALUES ('2019111800000400', '10', '10', '8888', '1', '8888');
+INSERT INTO `order_info` VALUES ('2019111800000500', '10', '10', '8888', '1', '8888');
+
+-- ----------------------------
+-- Table structure for promo
+-- ----------------------------
+DROP TABLE IF EXISTS `promo`;
+CREATE TABLE `promo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `promo_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `start_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `end_date` datetime DEFAULT '0000-00-00 00:00:00',
+  `item_id` int(11) NOT NULL DEFAULT '0',
+  `promo_item_price` double(10,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of promo
+-- ----------------------------
+INSERT INTO `promo` VALUES ('1', '', '2019-11-28 23:59:59', '2019-11-30 23:59:59', '10', '5000.00');
 
 -- ----------------------------
 -- Table structure for sequence_info
@@ -84,7 +109,7 @@ CREATE TABLE `sequence_info` (
 -- ----------------------------
 -- Records of sequence_info
 -- ----------------------------
-INSERT INTO `sequence_info` VALUES ('order_info', '0', '1');
+INSERT INTO `sequence_info` VALUES ('order_info', '6', '1');
 
 -- ----------------------------
 -- Table structure for user_info
